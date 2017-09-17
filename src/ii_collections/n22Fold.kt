@@ -15,7 +15,12 @@ fun whatFoldDoes(): Int {
 fun Shop.getSetOfProductsOrderedByEveryCustomer(): Set<Product> {
     // Return the set of products ordered by every customer
     return customers.fold(allOrderedProducts, {
-        orderedByAll, customer ->
-        todoCollectionTask()
+        orderedByAll, customer -> removeIfClientNotOrderedAllProducts(orderedByAll, customer)
     })
+}
+
+fun removeIfClientNotOrderedAllProducts(orderedByAll: Set<Product>, customer: Customer): Set<Product> {
+    val result = HashSet(orderedByAll)
+    result.removeIf({!customer.orderedProducts.contains(it)})
+    return result
 }
